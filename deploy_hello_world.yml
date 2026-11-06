@@ -1,0 +1,19 @@
+---
+- hosts: webservers
+
+  tasks:
+    - name: Add lines to docker file
+      lineinfile:
+            path: "/home/devasc/Documents/CaseStudy/ansible-project/Dockerfile"
+            line:
+                FROM httpd:alpine
+                COPY ./hello_world_website/index.html/usr/local/apache2/htdocs/
+                EXPOSE 80
+                CMD ["httpd-forground"]
+                
+    - name: Build Dockerfile
+      command: docker build -t website /home/devasc
+    - name: Run Docker container
+      command: docker run -t -d -p 8081:80 --name hello website
+                
+
